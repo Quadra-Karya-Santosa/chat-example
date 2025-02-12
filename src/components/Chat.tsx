@@ -5,31 +5,8 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { getChatHistory } from "../utils/api"
 import { getSocket } from "../utils/socket"
 import { Loader2 } from "lucide-react"
-import { LoginI, User } from "../App"
 import { debounce } from "../utils/debounce"
-
-interface Message {
-  id: string
-  message: string
-  createdAt: string
-  user: User
-}
-
-interface ChatProps {
-  loginData: LoginI
-}
-
-interface ChatResponse {
-  chats: Message[]
-  meta: {
-    total: number
-    skip: number
-    limit: number
-    lastPage: number
-    hasPreviousPage: boolean
-    hasNextPage: boolean
-  }
-}
+import { ChatProps, Message, ChatResponse } from "../interfaces/chat"
 
 export default function Chat({ loginData }: ChatProps) {
   const [messages, setMessages] = useState<Message[]>([])

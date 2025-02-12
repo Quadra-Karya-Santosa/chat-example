@@ -5,19 +5,7 @@ import Login from "./components/Login"
 import Chat from "./components/Chat"
 import { loginUser } from "./utils/api"
 import { closeSocket, setupSocket } from "./utils/socket"
-
-export interface LoginI {
-  token: string
-  user: User
-}
-
-export interface User {
-  id: string
-  email: string
-  username: string
-  role: string
-}
-
+import { LoginI } from "./interfaces/login"
 
 export default function App() {
   const [user, setUser] = useState<LoginI>()

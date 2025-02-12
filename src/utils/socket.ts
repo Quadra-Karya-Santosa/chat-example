@@ -12,7 +12,7 @@ export function setupSocket(token: string) {
     });
 
     socket.on("connect", () => {
-      console.log("Socket.IO connection established");
+      console.info("Socket.IO connection established");
     });
 
     socket.on("error", (error) => {
@@ -24,7 +24,7 @@ export function setupSocket(token: string) {
     });
 
     socket.on("disconnect", (reason) => {
-      console.log("Socket.IO disconnected:", reason);
+      console.info("Socket.IO disconnected:", reason);
     });
   }
 
