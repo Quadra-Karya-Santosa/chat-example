@@ -24,10 +24,10 @@ export default function Chat({ loginData }: ChatProps) {
   const isFetchingRef = useRef(false)
 
   const scrollToBottom = useCallback(() => {
-    if (messagesEndRef.current && initialLoad) {
+    if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
     }
-  }, [initialLoad])
+  }, [])
 
   const fetchChatHistory = useCallback(
     async (skipCount: number) => {
@@ -70,10 +70,8 @@ export default function Chat({ loginData }: ChatProps) {
     if (socket) {
       const handleNewMessage = (message: Message) => {
         setMessages((prevMessages) => [...prevMessages, message])
-        setSkip(prev => prev + 1);
-        if (initialLoad) {
-          setTimeout(scrollToBottom, 100)
-        }
+        setSkip(prev => prev + 1)
+        setTimeout(scrollToBottom, 100)
       }
 
       socket.on("newMessage", handleNewMessage)
