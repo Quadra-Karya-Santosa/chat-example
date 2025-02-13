@@ -1,50 +1,34 @@
-# React + TypeScript + Vite
+# Simple Chat App with React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Code ini merupakan contoh dari implementasi integrasi API berdasarkan video yang sudah aku buat:
+1.  [Video Login API](https://www.tiktok.com/@programmer_toddler/video/7469115930132352274?is_from_webapp=1&sender_device=pc&web_id=7452189884342846994)
+2. [Video Chat Websocket](https://www.tiktok.com/@programmer_toddler/video/7470020222515186999?is_from_webapp=1&sender_device=pc&web_id=7452189884342846994)
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Web apps yang aku buat ini sangat simple, hanya ada proses login dan bagian chat. Tanpa router, tanpa state management, tanpa persist data & tanpa logout process.
+Kalian bisa kembangkan codenya, apa aja sih yang bisa dikembangkan?
+1. Simpan akses token ke localstorage & proses logout (hapus token dari localstorage)
+2. Simpan akses token menggunakan redux + redux persist & proses logout (hapus token dari redux persist)
+3. Gunakan React Router untuk handle routing page
+4. Implementasi protected route sehingga halaman chat tidak bisa di akses oleh user yang belum login
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Cara Clone & Running
+### Clone Code
+Copy script di bawah ini ke terminal atau command prompt kalian
+```
+git clone https://github.com/Quadra-Karya-Santosa/chat-example.git && cd /chat-example
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### Running Project
+Lakukan instalasi modules dengan script ini:
 ```
+yarn install
+```
+Running dengan script ini:
+```
+yarn dev
+```
+Lalu kalian tinggal buka browser dan [click link ini](http://localhost:3000)
+
+Selamat belajar & explore
