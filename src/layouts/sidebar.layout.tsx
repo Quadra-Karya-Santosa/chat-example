@@ -33,6 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active }) => {
           >
             Article
           </NavLink>
+          {/* TODO: buat fungsi log out */}
         </div>
       </div>
     </aside>

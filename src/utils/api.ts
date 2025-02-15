@@ -1,3 +1,4 @@
+// TODO: Ubah penggunaan fetch menjadi Axios / RTK Query
 const API_BASE_URL = "https://open-api.quadrakaryasantosa.com"
 
 export async function loginUser(email: string, password: string) {
