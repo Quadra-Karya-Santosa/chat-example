@@ -36,7 +36,7 @@ export function getSocket() {
 }
 
 export function closeSocket() {
-  if (socket) {
+  if (socket?.connected) {
     socket.close();
     socket = null;
   }
