@@ -1,9 +1,9 @@
 import { Navigate, RouteObject } from "react-router";
-import DashboardLayout from "../layouts/dashboard.layout";
+import DashboardLayout from "../_layouts/dashboard.layout";
 import LoginPage, { LoginPath } from "../pages/login/login.page";
 import ChatPage, { ChatPath } from "../pages/chat/chat.page";
 import ArticlePage, { ArticlePath } from "../pages/article/article.page";
-import LoggedInRoute from "../utils/logged-in-route";
+import LoggedInRoute from "../_utils/logged-in-route";
 
 const routeConfig: RouteObject[] = [
   {

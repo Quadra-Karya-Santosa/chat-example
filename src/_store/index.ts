@@ -13,9 +13,11 @@ import {
 import auth from "./auth";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import storage from "redux-persist/lib/storage";
+import { Api } from "../services/api";
 
 const reducers = combineReducers({
   auth,
+  [Api.reducerPath]: Api.reducer,
 });
 
 const persistConfig = {
@@ -32,7 +34,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    });
+    }).concat(Api.middleware);
     return middlewares;
   },
 });
@@ -41,6 +43,7 @@ const persistor = persistStore(store);
 
 setupListeners(store.dispatch);
 export type RootState = ReturnType<typeof reducers>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useAppDispatch = () => useDispatch<any>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export { store, persistor };

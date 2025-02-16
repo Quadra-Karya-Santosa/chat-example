@@ -1,6 +1,9 @@
 import { NavLink } from "react-router";
 import { ChatPath } from "../pages/chat/chat.page";
 import { ArticlePath } from "../pages/article/article.page";
+import { useAppDispatch } from "../_store";
+import { useCallback } from "react";
+import { deleteTokenAuth } from "../_store/auth";
 
 interface SidebarProps {
   active: boolean;
@@ -8,6 +11,11 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ active }) => {
+  const dispatch = useAppDispatch();
+
+  const handleLogout = useCallback(() => {
+    dispatch(deleteTokenAuth())
+  }, []);
 
   return (
     <aside
@@ -16,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active }) => {
     >
       <h1 className="text-slate-800 font-bold text-center text-3xl p-4">Programmer Toddler</h1>
       <div className="mt-4 px-4">
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           <NavLink
             to={ChatPath}
             className={({ isActive }) =>
@@ -33,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active }) => {
           >
             Article
           </NavLink>
-          {/* TODO: buat fungsi log out */}
+          <button onClick={handleLogout} className="hover:bg-red-400 transition-all duration-500 p-4 cursor-pointer ml-2 rounded-xl text-slate-800 bg-red-300">Log out</button>
         </div>
       </div>
     </aside>

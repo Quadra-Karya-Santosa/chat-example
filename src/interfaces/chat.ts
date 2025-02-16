@@ -22,3 +22,8 @@ export interface ChatResponse {
     hasNextPage: boolean
   }
 }
+
+export interface ChatPaginationI {
+  skip: number;
+  limit: number;
+}

@@ -1,27 +1,28 @@
 import { useState } from "react";
-import { useAppDispatch } from "../../store";
-import { saveTokenAuth } from "../../store/auth";
-import { loginUser } from "../../utils/api";
+import { useAppDispatch } from "../../_store";
+import { saveTokenAuth } from "../../_store/auth";
+import { LoginReqI } from "../../interfaces/login";
+import { useLoginMutation } from "../../services/modules/auth";
+import { errorHandler } from "../../services/errorHandler";
 
 const useLogin = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [loginError, setLoginError] = useState("")
+  const [login] = useLoginMutation();
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async (payload: LoginReqI) => {
     try {
-      const userData = await loginUser(email, password)
+      const userData = await login(payload).unwrap();
       dispatch(saveTokenAuth(userData))
     } catch (error) {
-      console.error("Login failed:", error)
-      setLoginError("Login failed. Please try again.")
+      errorHandler(error)
     }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    handleLogin(email, password)
+    handleLogin({email, password})
   }
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +39,6 @@ const useLogin = () => {
     handleEmailChange,
     handlePasswordChange,
     handleSubmit,
-    loginError,
   }
 }
 

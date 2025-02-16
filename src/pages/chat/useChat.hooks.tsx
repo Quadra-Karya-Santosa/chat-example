@@ -1,16 +1,16 @@
 import { useState, useRef, useCallback, useEffect } from "react"
-import { Message, ChatResponse } from "../../_interfaces/chat"
-import { useAppSelector } from "../../store"
-import { getChatHistory } from "../../utils/api"
-import { debounce } from "../../utils/debounce"
-import { getSocket } from "../../utils/socket"
+import { Message } from "../../interfaces/chat"
+import { useAppSelector } from "../../_store"
+import { debounce } from "../../_utils/debounce"
+import { getSocket } from "../../services/socket"
+import { useLazyListChatQuery } from "../../services/modules/chat"
+import { errorHandler } from "../../services/errorHandler"
 
 const useChat = () => {
-  const { user, accessToken } = useAppSelector(state => state.auth)
+  const { user } = useAppSelector(state => state.auth)
   const socket = getSocket()
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const [skip, setSkip] = useState(0)
   const [initialLoad, setInitialLoad] = useState(true)
@@ -20,6 +20,8 @@ const useChat = () => {
   const observerRef = useRef<HTMLDivElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const isFetchingRef = useRef(false)
+  const [getChatHistory, getChatHistoryState] = useLazyListChatQuery();
+  const isLoading = getChatHistoryState.isFetching || getChatHistoryState.isLoading
 
   const scrollToBottom = useCallback(() => {
     if (messagesEndRef.current) {
@@ -33,12 +35,11 @@ const useChat = () => {
 
       try {
         isFetchingRef.current = true
-        setIsLoading(true)
-        const response: ChatResponse = await getChatHistory(accessToken!, skipCount, LIMIT)
+        const response = await getChatHistory({ skip: skipCount, limit: LIMIT }).unwrap();
 
         setMessages((prevMessages) => {
           const newMessages = response.chats.filter(
-            (newMsg) => !prevMessages.some((existingMsg) => existingMsg.id === newMsg.id),
+            (newMsg: Message) => !prevMessages.some((existingMsg) => existingMsg.id === newMsg.id),
           )
           return [...newMessages.reverse(), ...prevMessages]
         })
@@ -46,15 +47,15 @@ const useChat = () => {
         setHasMore(response.meta.hasNextPage)
         setSkip(skipCount + LIMIT)
       } catch (error) {
-        console.error("Failed to fetch chat history:", error)
+        errorHandler(error)
       } finally {
-        setIsLoading(false)
         isFetchingRef.current = false
       }
     },
-    [accessToken, hasMore],
+    [getChatHistory, hasMore],
   )
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchChatHistory = useCallback(
     debounce((skipCount: number) => fetchChatHistory(skipCount), 300),
     [fetchChatHistory],
@@ -131,7 +132,7 @@ const useChat = () => {
     [sendMessage],
   )
 
-  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewMessage(e.target.value);
   }
 

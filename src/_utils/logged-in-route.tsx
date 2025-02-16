@@ -1,5 +1,5 @@
 import React from "react"
-import { useAppSelector } from "../store";
+import { useAppSelector } from "../_store";
 import { Navigate, Outlet } from "react-router";
 import { LoginPath } from "../pages/login/login.page";
 
